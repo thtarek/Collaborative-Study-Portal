@@ -37,7 +37,7 @@
               {% for todo in todo_lists %}
                
  
-              <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
+              <ul class="list-group list-group-horizontal rounded-0 bg-transparent" id="todo-{{todo.id}}">
                 <li
                   class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                   <div class="form-check">
@@ -55,7 +55,7 @@
                          class="fa-solid fa-check me-3"></i></a>
                     <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
                         class="fas fa-pencil-alt me-3"></i></a>
-                    <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
+                    <a href="#!" class="text-danger delete_todo" data-url="{% url 'delete_todo' todo.id %}" data-mdb-toggle="tooltip" title="Delete todo"><i
                         class="fas fa-trash-alt"></i></a>
                   </div>
                   <div class="text-end text-muted">

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -32,3 +32,10 @@ def add_to_do(request):
                 return JsonResponse(response)
 
         # return HttpResponse('OK')
+
+def delete_todo(request, pk=None):
+    if request.user.is_authenticated:
+        if request.headers.get('X-requested-with') == 'XMLHttpRequest':
+            todo = get_object_or_404(Todo, pk=pk)
+            todo.delete()
+            return JsonResponse({'status': 'success', 'id':pk})
