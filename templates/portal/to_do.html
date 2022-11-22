@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+          <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
+            <div class="card-body py-4 px-4 px-md-5">
+  
+              <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+                <i class="fas fa-check-square me-1"></i>
+                <u>My Todo-s</u>
+              </p>
+  
+              <div class="pb-2">
+                <div class="card">
+                  <div class="card-body">
+                    <form id="id_form_title" action="">
+                      {% csrf_token %}
+                        <div class="d-flex flex-row align-items-center">
+                            <input type="text" class="form-control form-control-lg" id="id_title" style="margin-right: 10px;"
+                              placeholder="Add new...">
+                            <div>
+                              <input type="hidden" value="{% url 'add_to_do' %}" id="add_to_do">
+                              <button class="btn btn-primary add_todo">Add</button>
+                            </div>
+                          </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+  
+              <hr class="my-4">
+              <div class="todo_list_block">
+              {% for todo in todo_lists %}
+               
+ 
+              <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
+                <li
+                  class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                  <div class="form-check">
+                    <input class="form-check-input me-0" type="checkbox" value="" id="flexCheckChecked1"
+                      aria-label="..." checked />
+                  </div>
+                </li>
+                <li
+                  class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
+                  <p class="lead fw-normal mb-0">{{todo.title}}</p>
+                </li>
+                <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
+                  <div class="d-flex flex-row justify-content-end mb-1">
+                    <a href="#!" class="text-success" data-mdb-toggle="tooltip" title="complete todo"><i
+                         class="fa-solid fa-check me-3"></i></a>
+                    <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+                        class="fas fa-pencil-alt me-3"></i></a>
+                    <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
+                        class="fas fa-trash-alt"></i></a>
+                  </div>
+                  <div class="text-end text-muted">
+                    <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
+                      <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>{{todo.created_at}}</p>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+                              
+           
+              {% endfor %}
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

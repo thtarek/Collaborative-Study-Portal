@@ -1,0 +1,31 @@
+{% load static %}
+<!-- Nabbar section -->
+<header class="header_wraper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Collaborative Portal for Study</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav list-unstyled">
+            <li class="nav-item">
+              <a class="navbar-brand logo" href="#" style="display:flex;">
+                <img src="{% static 'images/logo.jpg' %}" alt="Avatar Logo" class="rounded-pill logo"> 
+                <span class="login-name">Tarek Hossain</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="registration.html">Registration</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
