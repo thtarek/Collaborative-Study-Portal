@@ -41,8 +41,9 @@
                 <li
                   class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                   <div class="form-check">
-                    <input class="form-check-input me-0" type="checkbox" value=""
-                      aria-label="..."/>
+                    <!-- <input class="form-check-input me-0" type="checkbox" value=""
+                      aria-label="..."/> -->
+                      <i class="fa-solid fa-circle me-0"></i>
                   </div>
                 </li>
                 <li
@@ -53,8 +54,8 @@
                   <div class="d-flex flex-row justify-content-end mb-1">
                     {% if not todo.is_finished %}
                     <a href="#!" class="text-success complete_todo" data-url="{% url 'complete_todo' todo.id%}" data-mdb-toggle="tooltip" id="completebtn-{{todo.id}}" title="complete todo"><i
-                         class="fa-solid fa-check me-3"></i></a>{% endif %}
-                    <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+                         class="fa-solid fa-circle-check me-3"></i></a>{% endif %}
+                    <a href="{% url 'edit_todo' todo.id %}" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
                         class="fas fa-pencil-alt me-3"></i></a>
                     <a href="#!" class="text-danger delete_todo" data-url="{% url 'delete_todo' todo.id %}" data-mdb-toggle="tooltip" title="Delete todo"><i
                         class="fas fa-trash-alt"></i></a>

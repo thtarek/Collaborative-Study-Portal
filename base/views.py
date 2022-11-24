@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
+from base.forms import TodoForm
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
+from django.contrib import messages
 
 from base.models import Todo
 
@@ -52,5 +54,21 @@ def complete_todo(request, pk=None):
                 return JsonResponse({'status': 'success','is_finished':True, 'id':pk})
             else:
                   return JsonResponse({'status': 'Failed'})
+
+def edit_todo(request, pk=None):
+    todo_list = get_object_or_404(Todo, pk=pk)
+    if request.method == 'POST':
+        form = TodoForm(request.POST, instance=todo_list)
+        if form.is_valid():
+            print('Okkkk')
+            title = form.cleaned_data['title']
+            form.save()
+            return redirect('to_do')
+    else: 
+        form = TodoForm(instance=todo_list)
+    context ={
+        'form': form
+    }
+    return render(request, 'portal/edit_todo.html', context)
             
            
