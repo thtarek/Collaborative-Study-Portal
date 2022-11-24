@@ -106,3 +106,8 @@ border-radius: 50%;
 }
 /* to-do css end */
 
+
+.strike-through{
+  text-decoration: line-through;
+}
+

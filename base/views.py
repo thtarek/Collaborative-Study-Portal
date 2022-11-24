@@ -36,6 +36,21 @@ def add_to_do(request):
 def delete_todo(request, pk=None):
     if request.user.is_authenticated:
         if request.headers.get('X-requested-with') == 'XMLHttpRequest':
-            todo = get_object_or_404(Todo, pk=pk)
+            todo = get_object_or_404(Todo, id=pk)
             todo.delete()
             return JsonResponse({'status': 'success', 'id':pk})
+
+def complete_todo(request, pk=None):
+    # return HttpResponse(pk)
+    if request.user.is_authenticated:
+        if request.headers.get('X-requested-with') == 'XMLHttpRequest':
+            todo_item = Todo.objects.get(user=request.user, id=pk)
+            
+            if todo_item.is_finished == False:
+                todo_item.is_finished = True
+                todo_item.save()
+                return JsonResponse({'status': 'success','is_finished':True, 'id':pk})
+            else:
+                  return JsonResponse({'status': 'Failed'})
+            
+           
