@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.shortcuts import redirect
 
 from django.http import HttpResponse
@@ -26,3 +26,7 @@ def user_login(request):
 @login_required(login_url='user_login')
 def dashboard(request):
     return render(request, 'portal/dashboard.html')
+
+def user_logout(request):
+    auth.logout(request)
+    return redirect('user_login')

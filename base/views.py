@@ -4,8 +4,12 @@ from base.forms import TodoForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages
-
 from base.models import Todo
+from django.http import HttpResponse
+import requests
+from django.conf import settings
+from isodate import parse_duration
+
 
 # Create your views here.
 @login_required(login_url="user_login")
@@ -70,5 +74,48 @@ def edit_todo(request, pk=None):
         'form': form
     }
     return render(request, 'portal/edit_todo.html', context)
+
+def youtube_search(request):
+    videos = []
+    if request.method == "POST":
+        search_url = 'https://www.googleapis.com/youtube/v3/search'
+        video_url = 'https://www.googleapis.com/youtube/v3/videos'
+
+        search_params = {
+            'part': 'snippet',
+            'q': request.POST['search'],
+            'key': settings.YOUTUBE_API_KEY,
+            'max-results': 6,
+            'type': 'video',
+        }
+
+        video_ids = []
+        r = requests.get(search_url, params=search_params)
+        results = r.json()['items']
+        for result in results:
+            video_ids.append(result['id']['videoId'])
+
+        video_params = {
+            'part': 'snippet, contentDetails',
+            'key': settings.YOUTUBE_API_KEY,
+            'id': ','.join(video_ids),
+            'max-results': 6,
+        }
+        r = requests.get(video_url, params=video_params)
+        results = r.json()['items']
+        for result in results:
+            video_data = {
+                'title': result['snippet']['title'],
+                'id': result['id'],
+                'url': f'https://www.youtube.com/watch?v={result["id"]}',
+                'thumbnail': result['snippet']["thumbnails"]['high']['url'],
+                'duration': int(parse_duration(result['contentDetails']["duration"]).total_seconds()//60),
+            }
+            videos.append(video_data)
+    context = {
+        'videos': videos
+    }
+    return  render(request, 'portal/youtube.html', context)
+
             
            
