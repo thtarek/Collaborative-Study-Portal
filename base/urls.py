@@ -11,4 +11,5 @@ urlpatterns = [
     # YOUTUBE SEARCH
 
     path('youtube', views.youtube_search, name='youtube_search'),
+    path('weather/', views.weather_update, name='weather_update'),
 ]

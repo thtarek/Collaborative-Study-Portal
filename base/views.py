@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from base.forms import TodoForm
@@ -12,6 +13,8 @@ from isodate import parse_duration
 
 
 # Create your views here.
+
+
 @login_required(login_url="user_login")
 def to_do(request):
     todo_lists = Todo.objects.filter(user=request.user)
@@ -85,7 +88,7 @@ def youtube_search(request):
             'part': 'snippet',
             'q': request.POST['search'],
             'key': settings.YOUTUBE_API_KEY,
-            'max-results': 6,
+            'maxResults': 18,
             'type': 'video',
         }
 
@@ -99,7 +102,7 @@ def youtube_search(request):
             'part': 'snippet, contentDetails',
             'key': settings.YOUTUBE_API_KEY,
             'id': ','.join(video_ids),
-            'max-results': 6,
+            'maxResults': 18,
         }
         r = requests.get(video_url, params=video_params)
         results = r.json()['items']
@@ -116,6 +119,38 @@ def youtube_search(request):
         'videos': videos
     }
     return  render(request, 'portal/youtube.html', context)
+
+
+def weather_update(request):
+    weather =[]
+    if request.method == "POST":
+        # key = "cb5bd540aa71df72d1e7986a40bff392"
+        weather_search_url = "https://api.openweathermap.org/data/2.5/weather"
+        search_params = {
+            'q': request.POST['city_name'],
+            'appid': settings.WEATHER_API_KEY,
+            'units': 'metric',
+        }
+        r =requests.get(weather_search_url, search_params)
+        results = r.json()
+        weather_data = {
+            'des': results['weather'][0]['description'],
+            'wet': results['weather'][0]['main'],
+            'icon': results['weather'][0]['icon'],
+            'temp': results['main']['temp'],
+            'feels_like': results['main']['feels_like'],
+            'humidity': results['main']['humidity'],
+            'wind': results['wind']['speed'],
+            'visibility': round(int(results['visibility'])/1000, 1),
+            'city': results['name'],
+            'country': results['sys']['country'],
+        }
+        weather.append(weather_data)
+    context = {
+        'weathers': weather
+    }
+        
+    return render(request, 'portal/weather_update.html', context)
 
             
            
