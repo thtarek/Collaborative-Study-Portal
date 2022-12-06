@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <section class="jumbotron text-center mt-4">
+        <div class="container">
+          <h1 class="jumbotron-heading">Search My Library</h1>
+          <p class="lead text-muted">Get text books from Google!</p>
+          <form method="POST">
+          <div class="input-group mb-3">
+              {% csrf_token %}
+              <input type="text" name="search_book_name" class="form-control" aria-label="Username">
+          </div>
+          <p>
+            <button type="submit" class="btn btn-primary my-2">Search Book</button>
+          </p>
+          </form>
+        </div>
+    </section>
+
+    <div class="row py-5">
+        
+        {% for book_list in book_lists %}
+            
+        <div class="col-md-3">
+            <div class="card mb-4 shadow-sm">
+                <img src="{{book_list.image}}" style="height: 160px!important;" class="bd-placeholder-img card-img-top" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                <div class="card-body">
+                    <p class="card-text" style="margin-bottom: 0px!important; color: black;">{{book_list.title}}</p>
+                    <small style="color:blue ;">{{book_list.authors|first}}</small>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class="btn-group">
+                          <a type="button" href="{% url 'book_detail' book_list.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>           
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

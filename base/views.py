@@ -124,7 +124,6 @@ def youtube_search(request):
 def weather_update(request):
     weather =[]
     if request.method == "POST":
-        # key = "cb5bd540aa71df72d1e7986a40bff392"
         weather_search_url = "https://api.openweathermap.org/data/2.5/weather"
         search_params = {
             'q': request.POST['city_name'],
@@ -151,6 +150,62 @@ def weather_update(request):
     }
         
     return render(request, 'portal/weather_update.html', context)
+
+def search_book(request):
+    book_list = []
+    if request.method == "POST":
+        book_search_url = "https://www.googleapis.com/books/v1/volumes"
+        search_params = {
+                'q': request.POST['search_book_name'],
+                'key': settings.BOOK_API_KEY,
+                'maxResults': 12,
+            }
+        r =requests.get(book_search_url, search_params)
+        results = r.json()['items']
+        for result in results:
+            book_data = {
+                'id':result['id'],
+                'title':result['volumeInfo']['title'],
+                'image': result['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in result['volumeInfo'] else "",
+                'authors':result['volumeInfo']['authors'] if 'authors' in result['volumeInfo'] else "",
+                'publishedDate':result['volumeInfo']['publishedDate'] if 'publishedDate' in result['volumeInfo'] else "",
+                'description':result['volumeInfo']['description'] if 'description' in result['volumeInfo'] else "",
+                
+            }
+            book_list.append(book_data)
+    context = {
+        'book_lists': book_list,
+    }
+    # print(book_list)
+    return render(request, 'portal/search_book.html', context)
+
+def book_detail(request, id):
+    book_details = []
+    if request.method == "GET":
+        specific_book = "https://www.googleapis.com/books/v1/volumes/"+id+"?key="+settings.BOOK_API_KEY
+        r =requests.get(specific_book)
+        result = r.json()
+        book_data = {
+            'id':result['id'],
+            'title':result['volumeInfo']['title'],
+            'subtitle':result['volumeInfo']['subtitle'] if 'subtitle' in result['volumeInfo'] else "",
+            'image': result['volumeInfo']['imageLinks']['thumbnail'] if 'imageLinks' in result['volumeInfo'] else "",
+            'authors':", ".join(result['volumeInfo']['authors']) if 'authors' in result['volumeInfo'] else "",
+            'publisher':result['volumeInfo']['publisher'] if 'publisher' in result['volumeInfo'] else "",
+            'description':result['volumeInfo']['description'] if 'description' in result['volumeInfo'] else "",
+            'pageCount':result['volumeInfo']['pageCount'] if 'pageCount' in result['volumeInfo'] else "",
+            'publishedDate':result['volumeInfo']['publishedDate'] if 'publishedDate' in result['volumeInfo'] else "",
+            'ratingsCount':result['volumeInfo']['ratingsCount'] if 'ratingsCount' in result['volumeInfo'] else "",
+            'categories':result['volumeInfo']['categories'] if 'categories' in result['volumeInfo'] else "",
+            'previewLink':result['volumeInfo']['previewLink'] if 'previewLink' in result['volumeInfo'] else "",
+            
+        }
+        book_details.append(book_data)
+        context = {
+        'book_details': book_details,
+        }
+        return render(request, 'portal/book_detail.html', context)
+
 
             
            

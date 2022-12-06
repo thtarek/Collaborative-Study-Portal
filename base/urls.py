@@ -12,4 +12,6 @@ urlpatterns = [
 
     path('youtube', views.youtube_search, name='youtube_search'),
     path('weather/', views.weather_update, name='weather_update'),
+    path('book/', views.search_book, name='search_book'),
+    path('book-detail/<id>/', views.book_detail, name='book_detail'),
 ]

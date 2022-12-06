@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row py-5">
+        <div class="col-md-12">  
+            <div class="card mb-4 shadow-sm">
+                {% if book_details %}
+                {% for book_detail in book_details %} 
+            
+                <div class="card-body">
+                   <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <img src="{{book_detail.image}}" style="height: 160px!important;" class="bd-placeholder-img card-img-top" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="card-text" style="margin-bottom: 0px!important; color: black;">{{book_detail.title}}: <small style="color:#DD4034;">{{book_detail.subtitle}}</small></h4>
+                        <small class="text" style="color:blue ;">{{book_detail.authors}}</small><br>
+                        <small class="text" style="color:black ;">{{book_detail.publisher}}, {{book_detail.publishedDate}} - {{book_detail.categories|first}} - {{book_detail.pageCount}} pages</small><br>
+                        {% if book_detail.ratingsCount %}
+                        <small class="text" style="color:#FFA41C ;">{{book_detail.ratingsCount}} ratings</small><br>
+                        {% else %}
+                        <small class="text" style="color:#FFA41C ;">0 ratings</small><br>
+                        {% endif %}
+                        <small class="text"><u><a href="{{book_detail.previewLink}}">Preview Link</a></u></small>
+                    </div>
+                   </div>
+                    <div class="align-items-center mt-5 p-4">
+                        <h5 style="color: black;">Description</h5>
+                        <p style="color: black;">{{book_detail.description}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
