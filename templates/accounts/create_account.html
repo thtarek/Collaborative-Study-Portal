@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="login">
+    <div class="container mt-5 pt-5">
+      <div class="row">
+        <div class="col-12 col-sm-10 col-md-8 m-auto">
+          <div class="card border-0 shadow">
+            <div class="card-body">
+              <form method="POST" action="{% url 'create_account' %}" enctype='multipart/form-data'>
+                {% csrf_token %}  
+                  <div class="row">
+                      <div class="col">
+                          {{form.first_name}}
+                          {{form.errors.first_name}}
+                      </div>
+                      <div class="col">
+                          {{form.last_name}}
+                          {{form.errors.last_name}}
+                      </div>
+                  </div>
+                  <div class="row my-4">
+                      <div class="col">
+                          {{form.username}}
+                          {{form.errors.username}}
+                      </div>
+                      <div class="col">
+                          {{form.email}}
+                          {{form.errors.email}}
+                      </div>
+                  </div>
+                  <div class="col">
+                    {{form.password}}
+                    {{form.errors.password}}
+                  </div>
+                  <div class="col">
+                    {{form.confirm_password}}
+                    {{form.errors.confirm_password}}
+                  </div>
+                  
+                <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-danger">Register</button>
+                </div>
+              </form>
+              <hr class="my-4">
+              <p class="mt-1">Already have an account? <a href="{% url 'user_login' %}" class="link-info">Login</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
