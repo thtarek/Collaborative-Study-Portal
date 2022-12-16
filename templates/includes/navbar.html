@@ -13,7 +13,7 @@
             <li class="nav-item">
               <a class="navbar-brand logo" href="#" style="display:flex;">
                 <img src="{% static 'images/logo.jpg' %}" alt="Avatar Logo" class="rounded-pill logo"> 
-                <span class="login-name">{{user.username}}</span>
+                <span class="login-name">{{request.user.get_full_name}}</span>
               </a>
             </li>
             <li class="nav-item">

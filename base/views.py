@@ -10,6 +10,9 @@ from django.http import HttpResponse
 import requests
 from django.conf import settings
 from isodate import parse_duration
+import wikipedia
+import random
+
 
 
 # Create your views here.
@@ -22,7 +25,8 @@ def to_do(request):
         'todo_lists': todo_lists,
     }
     return render(request, 'portal/to_do.html', context)
-
+    
+@login_required(login_url='user_login')
 def add_to_do(request):
       if request.user.is_authenticated:
         if request.headers.get('X-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
@@ -41,7 +45,7 @@ def add_to_do(request):
                 return JsonResponse(response)
 
         # return HttpResponse('OK')
-
+@login_required(login_url='user_login')
 def delete_todo(request, pk=None):
     if request.user.is_authenticated:
         if request.headers.get('X-requested-with') == 'XMLHttpRequest':
@@ -49,6 +53,7 @@ def delete_todo(request, pk=None):
             todo.delete()
             return JsonResponse({'status': 'success', 'id':pk})
 
+@login_required(login_url='user_login')
 def complete_todo(request, pk=None):
     # return HttpResponse(pk)
     if request.user.is_authenticated:
@@ -62,6 +67,7 @@ def complete_todo(request, pk=None):
             else:
                   return JsonResponse({'status': 'Failed'})
 
+@login_required(login_url='user_login')
 def edit_todo(request, pk=None):
     todo_list = get_object_or_404(Todo, pk=pk)
     if request.method == 'POST':
@@ -78,6 +84,7 @@ def edit_todo(request, pk=None):
     }
     return render(request, 'portal/edit_todo.html', context)
 
+@login_required(login_url='user_login')
 def youtube_search(request):
     videos = []
     if request.method == "POST":
@@ -120,7 +127,7 @@ def youtube_search(request):
     }
     return  render(request, 'portal/youtube.html', context)
 
-
+@login_required(login_url='user_login')
 def weather_update(request):
     weather =[]
     if request.method == "POST":
@@ -151,6 +158,7 @@ def weather_update(request):
         
     return render(request, 'portal/weather_update.html', context)
 
+@login_required(login_url='user_login')
 def search_book(request):
     book_list = []
     if request.method == "POST":
@@ -179,6 +187,7 @@ def search_book(request):
     # print(book_list)
     return render(request, 'portal/search_book.html', context)
 
+@login_required(login_url='user_login')
 def book_detail(request, id):
     book_details = []
     if request.method == "GET":
@@ -205,6 +214,25 @@ def book_detail(request, id):
         'book_details': book_details,
         }
         return render(request, 'portal/book_detail.html', context)
+
+def search_wiki(request):
+    if request.method == 'POST':
+        info = request.POST['search_wiki']
+        try:
+            text = wikipedia.page(info, auto_suggest = False)
+        except wikipedia.exceptions.DisambiguationError as e:
+            s = random.choice(e.options)
+            text = wikipedia.page(s, auto_suggest = False)
+        context = {
+            'title': text.title,
+            'details': text.summary,
+            'link': text.url,
+            'image': text.images[0],
+        }
+        return render(request, 'portal/search_wiki.html', context)
+    
+    else:
+        return render(request, 'portal/search_wiki.html')
 
 
             

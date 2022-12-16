@@ -22,10 +22,7 @@ def user_login(request):
             login(request, user)
             return redirect('dashboard')
         else:
-            if User.objects.filter(email=email).exists():
-                messages.error(request,'Wait for admin approve.')
-            else:
-                messages.error(request,'Invalid email or password.')
+            messages.error(request,'Invalid email or password.')
             return redirect('user_login')
     return render(request, 'accounts/login.html')
 
@@ -33,6 +30,7 @@ def user_login(request):
 def dashboard(request):
     return render(request, 'portal/dashboard.html')
 
+@login_required(login_url='user_login')
 def user_logout(request):
     auth.logout(request)
     return redirect('user_login')

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <section class="jumbotron text-center mt-4">
+        <div class="container">
+          <h1 class="jumbotron-heading">Wikipedia</h1>
+          <p class="lead text-muted">From Wikipedia, the free encyclopedia</p>
+          <form method="POST">
+          <div class="input-group mb-3">
+              {% csrf_token %}
+              <input type="text" name="search_wiki" class="form-control" aria-label="search">
+          </div>
+          <p>
+            <button type="submit" class="btn btn-primary my-2">Search Wikipedia</button>
+          </p>
+          </form>
+        </div>
+    </section>
+
+    {% if title or details %}
+    <div class="row">
+        <div class="col-md-12">  
+            <div class="card mb-4 shadow-sm border-0 rounded-0">
+                <div class="card-body">
+                   <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <img src="{{image}}" style="height: 160px!important;" class="bd-placeholder-img card-img-top" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="card-text" style="margin-bottom: 0px!important; color: black;">{{title}}</h4>
+                        <small class="text"><u><a href="{{link}}">Wikipedia Link</a></u></small>
+                    </div>
+                   </div>
+                    <div class="align-items-center mt-5 p-4">
+                        <h5 style="color: black;">Description</h5>
+                        <p style="color: black;">{{details}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

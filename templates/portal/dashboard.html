@@ -29,7 +29,7 @@
             <img src="{% static 'images/todo.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
             <h4 class="text-center">To Do</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text" style="text-align: center;">Make your daily to do list.</p>
             </div>
         </a>
         </div>
@@ -38,7 +38,7 @@
         <img src="{% static 'images/youtube.png' %}" class="card-img-top" alt="...">
         <div class="card-body">
             <h4 class="text-center">YouTube</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text" style="text-align: center;">Search your tutorial from youtube.</p>
         </div>
         </a>
         </div>
@@ -47,9 +47,27 @@
             <img src="{% static 'images/book.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
             <h4 class="text-center">Books</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text" style="text-align: center;">Search your books from online.</p>
             </div>
         </a>
+        </div>
+        <div class="card m-3" style="width: 20rem;">
+            <a href="{% url 'search_wiki' %}">
+                <img src="{% static 'images/wiki.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h4 class="text-center">Wikipedia</h4>
+                <p class="card-text" style="text-align: center;">Search your content from Wikipedia.</p>
+                </div>
+            </a>
+        </div>
+        <div class="card m-3" style="width: 20rem;">
+            <a href="{% url 'search_book' %}">
+                <img src="{% static 'images/measurement.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h4 class="text-center">Measurement</h4>
+                <p class="card-text" style="text-align: center;">Search your content from Wikipedia.</p>
+                </div>
+            </a>
         </div>
     </div>
     </div>
